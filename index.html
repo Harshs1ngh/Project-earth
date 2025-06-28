@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Earth Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="webgl"></canvas>
+
+<header>
+  <div class="logo">HARSH SINGH</div>
+  <nav>
+    <a href="#">weather</a>
+    <a href="#">Trevel</a>
+    <a href="#">Tickets</a>
+    <a href="#">videos</a>
+  </nav>
+  <button class="enroll-btn">project earth</button>
+</header>
+
+<section class="main-section">
+  <div class="text-content">
+    <h4>THE BLUE PLANET</h4>
+    <h1>EARTH</h1>
+    <p>Explore the real-time 3D Earth with clouds, atmosphere and zoomable countries.</p>
+    <div class="btns">
+      <button class="learn-more">LEARN MORE</button>
+    </div>
+  </div>
+</section>
+
+<div id="search-container">
+  <select id="countrySelect">
+    <option value="">-- Select Country --</option>
+    <option value="india">India</option>
+    <option value="us">United States</option>
+    <option value="russia">Russia</option>
+    <option value="uk">United Kingdom</option>
+    <option value="canada">Canada</option>
+    <option value="australia">Australia</option>
+    <option value="africa">Africa</option>
+  </select>
+  <button id="go-btn" onclick="zoomToCountry()">Go</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

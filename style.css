@@ -1,0 +1,163 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(ellipse at center, #1e3a8a 0%, #000814 80%);
+  background-size: 200% 200%;
+  animation: glowBackground 10s ease-in-out infinite alternate;
+  color: white;
+  overflow: hidden;
+}
+
+@keyframes glowBackground {
+  0% {
+    background-position: 0% 50%;
+    filter: brightness(1);
+  }
+  100% {
+    background-position: 100% 50%;
+    filter: brightness(1.15);
+  }
+}
+
+header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  z-index: 10;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: white;
+}
+
+.enroll-btn {
+  padding: 8px 16px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.main-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px 100px;
+  height: 90vh;
+  z-index: 10;
+}
+
+.text-content {
+  max-width: 500px;
+  z-index: 2;
+}
+
+.text-content h4 {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  color: #60a5fa;
+  margin-bottom: 10px;
+}
+
+.text-content h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.text-content p {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.btns {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.learn-more {
+  padding: 10px 20px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#webgl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+#search-container {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  background-color: rgba(10, 15, 44, 0.7);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+}
+
+select, button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  outline: none;
+}
+
+select {
+  background-color: #1e293b;
+  color: #cbd5e1;
+}
+
+#go-btn {
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#go-btn:hover {
+  background-color: #1d4ed8;
+}
