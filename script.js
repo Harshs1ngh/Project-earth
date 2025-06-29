@@ -8,8 +8,19 @@ const countryCoords = {
   uk: [-3.4360, 55.3781],
   canada: [-106.3468, 56.1304],
   australia: [133.7751, -25.2744],
-  africa: [20.9394, 4.3956],
+  africa: [21.0936, 7.1881],
+  china: [104.1954, 35.8617],
+  brazil: [-51.9253, -14.2350],
+  germany: [10.4515, 51.1657],
+  france: [2.2137, 46.2276],
+  japan: [138.2529, 36.2048],
+  southkorea: [127.7669, 35.9078],
+  italy: [12.5674, 41.8719],
+  mexico: [-102.5528, 23.6345],
+  argentina: [-63.6167, -38.4161],
+  southafrica: [22.9375, -30.5595],
 };
+
 
 init();
 animate();
@@ -41,7 +52,7 @@ function init() {
   scene.add(directional);
 
   const loader = new THREE.GLTFLoader();
-  loader.load("earth.glb", function(gltf) {
+  loader.load("earth.glb", function (gltf) {
     earth = gltf.scene;
     earth.scale.set(2.2, 2.2, 2.4);
     scene.add(earth);
@@ -85,7 +96,7 @@ function init() {
   });
 
   const textureLoader = new THREE.TextureLoader();
-  textureLoader.load("starfield.jpg", function(texture) {
+  textureLoader.load("starfield.jpg", function (texture) {
     const skyGeo = new THREE.SphereGeometry(500, 60, 60);
     const skyMat = new THREE.MeshBasicMaterial({
       map: texture,
@@ -112,12 +123,21 @@ function animate() {
 }
 
 function zoomToCountry() {
-  const country = document.getElementById("countrySelect").value;
+  const country = document.getElementById("countrySelect").value.toLowerCase();
   if (!country || !countryCoords[country] || !earth) return;
 
   const [lng, lat] = countryCoords[country];
-  const phi = (90 - lat) * (Math.PI / 180);
-  const theta = (lng + 180) * (Math.PI / 180);
+
+  // OFFSET FIX
+  const lngOffset = -100; // try adjusting this if it still feels off
+  const latOffset = 0;     // usually 0, but adjust if Earth is tilted
+
+  const correctedLng = lng + lngOffset;
+  const correctedLat = lat + latOffset;
+
+  const phi = (90 - correctedLat) * (Math.PI / 180);
+  const theta = (correctedLng) * (Math.PI / 180);
+
   const radius = 4.2;
   const x = radius * Math.sin(phi) * Math.cos(theta);
   const y = radius * Math.cos(phi);
@@ -138,9 +158,34 @@ function zoomToCountry() {
       camera.lookAt(new THREE.Vector3(0, 0, 0));
       requestAnimationFrame(smoothZoom);
     } else {
-      isZooming = false;
+      isZooming = true;
     }
   }
 
   smoothZoom();
+}
+
+
+function resetCamera() {
+  if (!camera) return;
+
+  isZooming = true;
+  let t = 0;
+  const duration = 60;
+  const startPos = camera.position.clone();
+  const defaultPos = new THREE.Vector3(0, 3, 6);
+
+  function smoothReset() {
+    if (t < 1) {
+      t += 1 / duration;
+      const ease = 1 - Math.pow(1 - t, 3);
+      camera.position.lerpVectors(startPos, defaultPos, ease);
+      camera.lookAt(new THREE.Vector3(0, 0, 0));
+      requestAnimationFrame(smoothReset);
+    } else {
+      isZooming = false; // allow Earth to spin again
+    }
+  }
+
+  smoothReset();
 }
