@@ -4,18 +4,18 @@ let isZooming = false;
 const countryCoords = {
   india: [78.9629, 20.5937],
   us: [-95.7129, 37.0902],
-  russia: [105.3188, 61.5240],
-  uk: [-3.4360, 55.3781],
+  russia: [40.3188, 60.5240],
+  uk: [-30.4360, 55.3781],
   canada: [-106.3468, 56.1304],
-  australia: [133.7751, -25.2744],
-  africa: [21.0936, 7.1881],
-  china: [104.1954, 35.8617],
-  brazil: [-51.9253, -14.2350],
-  germany: [10.4515, 51.1657],
-  france: [2.2137, 46.2276],
-  japan: [138.2529, 36.2048],
-  southkorea: [127.7669, 35.9078],
-  italy: [12.5674, 41.8719],
+  australia: [30.7751, -25.2744],
+  africa: [130.0936, 7.1881],
+  china: [60.1954, 35.8617],
+  brazil: [-151.9253, -14.2350],
+  germany: [140.4515, 51.1657],
+  france: [160.2137, 46.2276],
+  japan: [30.2529, 36.2048],
+  southkorea: [40.7669, 35.9078],
+  italy: [140.5674, 41.8719],
   mexico: [-102.5528, 23.6345],
   argentina: [-63.6167, -38.4161],
   southafrica: [22.9375, -30.5595],
@@ -55,6 +55,7 @@ function init() {
   loader.load("earth.glb", function (gltf) {
     earth = gltf.scene;
     earth.scale.set(2.2, 2.2, 2.4);
+    earth.rotation.y = 0;
     scene.add(earth);
 
     const glowMaterial = new THREE.ShaderMaterial({
@@ -128,27 +129,29 @@ function zoomToCountry() {
 
   const [lng, lat] = countryCoords[country];
 
-  // OFFSET FIX
-  const lngOffset = -100; // try adjusting this if it still feels off
-  const latOffset = 0;     // usually 0, but adjust if Earth is tilted
-
-  const correctedLng = lng + lngOffset;
-  const correctedLat = lat + latOffset;
-
-  const phi = (90 - correctedLat) * (Math.PI / 180);
-  const theta = (correctedLng) * (Math.PI / 180);
+  // Apply +90° shift to align with Three.js globe
+  const phi = (90 - lat) * Math.PI / 180;
+  const theta = (lng + 215) * Math.PI / 180;
 
   const radius = 4.2;
   const x = radius * Math.sin(phi) * Math.cos(theta);
   const y = radius * Math.cos(phi);
   const z = radius * Math.sin(phi) * Math.sin(theta);
 
-  isZooming = true;
+  // Compensate for earth's current rotation
+  const currentRotation = earth.rotation.y;
+  const cosR = Math.cos(currentRotation);
+  const sinR = Math.sin(currentRotation);
 
+  const rotatedX = x * cosR + z * sinR;
+  const rotatedZ = -x * sinR + z * cosR;
+
+  const target = new THREE.Vector3(rotatedX, y, rotatedZ);
+
+  isZooming = true;
   let t = 0;
   const duration = 60;
   const startPos = camera.position.clone();
-  const target = new THREE.Vector3(x, y, z);
 
   function smoothZoom() {
     if (t < 1) {
