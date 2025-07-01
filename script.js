@@ -21,7 +21,6 @@ const countryCoords = {
   southafrica: [22.9375, -30.5595],
 };
 
-
 init();
 animate();
 
@@ -57,6 +56,13 @@ function init() {
     earth.scale.set(2.2, 2.2, 2.4);
     earth.rotation.y = 0;
     scene.add(earth);
+
+    const starLoader = new THREE.GLTFLoader();
+    starLoader.load("stars.glb", function (starGltf) {
+      const stars = starGltf.scene;
+      stars.scale.set(1, 1, 1);
+      earth.add(stars); 
+    });
 
     const glowMaterial = new THREE.ShaderMaterial({
       uniforms: {
@@ -96,17 +102,6 @@ function init() {
     scene.add(glowMesh);
   });
 
-  const textureLoader = new THREE.TextureLoader();
-  textureLoader.load("starfield.jpg", function (texture) {
-    const skyGeo = new THREE.SphereGeometry(500, 60, 60);
-    const skyMat = new THREE.MeshBasicMaterial({
-      map: texture,
-      side: THREE.BackSide
-    });
-    const sky = new THREE.Mesh(skyGeo, skyMat);
-    scene.add(sky);
-  });
-
   window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -129,7 +124,6 @@ function zoomToCountry() {
 
   const [lng, lat] = countryCoords[country];
 
-  // Apply +90° shift to align with Three.js globe
   const phi = (90 - lat) * Math.PI / 180;
   const theta = (lng + 215) * Math.PI / 180;
 
@@ -138,7 +132,6 @@ function zoomToCountry() {
   const y = radius * Math.cos(phi);
   const z = radius * Math.sin(phi) * Math.sin(theta);
 
-  // Compensate for earth's current rotation
   const currentRotation = earth.rotation.y;
   const cosR = Math.cos(currentRotation);
   const sinR = Math.sin(currentRotation);
@@ -168,7 +161,6 @@ function zoomToCountry() {
   smoothZoom();
 }
 
-
 function resetCamera() {
   if (!camera) return;
 
@@ -186,7 +178,7 @@ function resetCamera() {
       camera.lookAt(new THREE.Vector3(0, 0, 0));
       requestAnimationFrame(smoothReset);
     } else {
-      isZooming = false; // allow Earth to spin again
+      isZooming = false;
     }
   }
 
