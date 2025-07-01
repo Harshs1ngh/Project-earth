@@ -1,4 +1,4 @@
-let scene, camera, renderer, controls, earth;
+let scene, camera, renderer, controls, earth, galaxy;
 let isZooming = false;
 
 const countryCoords = {
@@ -51,19 +51,15 @@ function init() {
   scene.add(directional);
 
   const loader = new THREE.GLTFLoader();
+
+  // Load Earth
   loader.load("earth.glb", function (gltf) {
     earth = gltf.scene;
     earth.scale.set(2.2, 2.2, 2.4);
     earth.rotation.y = 0;
     scene.add(earth);
 
-    const starLoader = new THREE.GLTFLoader();
-    starLoader.load("stars.glb", function (starGltf) {
-      const stars = starGltf.scene;
-      stars.scale.set(1, 1, 1);
-      earth.add(stars); 
-    });
-
+    // Glow effect
     const glowMaterial = new THREE.ShaderMaterial({
       uniforms: {
         "c": { type: "f", value: 2.8 },
@@ -81,15 +77,13 @@ function init() {
           vec3 vNormView = normalize(normalMatrix * viewVector - modelViewMatrix * vec4(position, 1.0)).xyz;
           intensity = pow(c - dot(vNormal, vNormView), p);
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
+        }`,
       fragmentShader: `
         uniform vec3 glowColor;
         varying float intensity;
         void main() {
           gl_FragColor = vec4(glowColor * intensity, 1.0);
-        }
-      `,
+        }`,
       side: THREE.BackSide,
       blending: THREE.AdditiveBlending,
       transparent: true
@@ -102,6 +96,26 @@ function init() {
     scene.add(glowMesh);
   });
 
+  // Load Galaxy background
+  loader.load("galaxy.glb", function (gltf) {
+    galaxy = gltf.scene;
+    galaxy.scale.set(100, 100, 100); // Size up to surround Earth
+    galaxy.rotation.y = 0;
+
+    // Dim galaxy brightness
+    galaxy.traverse((child) => {
+      if (child.isMesh && child.material) {
+        child.material = child.material.clone();
+        child.material.color.multiplyScalar(0.2); // darker
+        if (child.material.emissive) {
+          child.material.emissive.multiplyScalar(0.1); // dim glow
+        }
+      }
+    });
+
+    scene.add(galaxy);
+  });
+
   window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -111,8 +125,9 @@ function init() {
 
 function animate() {
   requestAnimationFrame(animate);
-  if (!isZooming && earth) {
-    earth.rotation.y += 0.002;
+  if (!isZooming) {
+    if (earth) earth.rotation.y += 0.002;
+    if (galaxy) galaxy.rotation.y += 0.002;
   }
   controls.update();
   renderer.render(scene, camera);
