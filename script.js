@@ -133,27 +133,43 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-function zoomToCountry() {
+const apiCountryNames = {
+  us: "united states",
+  uk: "united kingdom",
+  africa: "nigeria", // or pick a country in Africa
+  china: "china",
+  southkorea: "south korea",
+  india: "india",
+  russia: "russia",
+  canada: "canada",
+  australia: "australia",
+  brazil: "brazil",
+  germany: "germany",
+  france: "france",
+  japan: "japan",
+  italy: "italy",
+  mexico: "mexico",
+  argentina: "argentina",
+  southafrica: "south africa"
+};
+
+async function zoomToCountry() {
   const country = document.getElementById("countrySelect").value.toLowerCase();
   if (!country || !countryCoords[country] || !earth) return;
 
+  // 🌍 Smooth camera zoom
   const [lng, lat] = countryCoords[country];
-
   const phi = (90 - lat) * Math.PI / 180;
   const theta = (lng + 215) * Math.PI / 180;
-
   const radius = 4.2;
   const x = radius * Math.sin(phi) * Math.cos(theta);
   const y = radius * Math.cos(phi);
   const z = radius * Math.sin(phi) * Math.sin(theta);
-
   const currentRotation = earth.rotation.y;
   const cosR = Math.cos(currentRotation);
   const sinR = Math.sin(currentRotation);
-
   const rotatedX = x * cosR + z * sinR;
   const rotatedZ = -x * sinR + z * cosR;
-
   const target = new THREE.Vector3(rotatedX, y, rotatedZ);
 
   isZooming = true;
@@ -174,9 +190,49 @@ function zoomToCountry() {
   }
 
   smoothZoom();
+
+  // 📡 Fetch country + weather data
+  try {
+    const apiName = apiCountryNames[country] || country;
+    const countryInfoRes = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(apiName)}?fullText=true`);
+
+    const countryInfoData = await countryInfoRes.json();
+    const countryInfo = countryInfoData[0];
+
+    const capital = countryInfo.capital?.[0] || "N/A";
+    const population = countryInfo.population?.toLocaleString() || "N/A";
+    const timezone = countryInfo.timezones?.[0] || "N/A";
+    const flag = countryInfo.flags?.png || "";
+    const latlng = countryInfo.latlng;
+
+    // 🌦️ Real-time weather using lat/lon of capital
+    const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latlng[0]}&lon=${latlng[1]}&appid=df83d9ad8fb63535e2dece792e6ef6d3&units=metric`);
+    const weatherData = await weatherRes.json();
+
+    const temp = Math.round(weatherData.main.temp);
+    const condition = weatherData.weather[0].main;
+    const weather = `${temp}°C, ${condition}`;
+
+    const data = {
+      name: countryInfo.name.common,
+      weather,
+      capital,
+      population,
+      timezone,
+      flag
+    };
+
+    showInfoCard(data);
+
+  } catch (error) {
+    console.error("Failed to fetch real data:", error);
+    alert("Error fetching country or weather data.");
+  }
 }
 
+
 function resetCamera() {
+  hideCard();
   if (!camera) return;
 
   isZooming = true;
@@ -198,4 +254,17 @@ function resetCamera() {
   }
 
   smoothReset();
+}
+function showInfoCard(data) {
+  document.getElementById('country-name').textContent = data.name;
+  document.getElementById('weather-info').textContent = `🌡 Weather: ${data.weather}`;
+  document.getElementById('capital-info').textContent = `🌆 Capital: ${data.capital}`;
+  document.getElementById('population-info').textContent = `🧑‍🤝‍🧑 Population: ${data.population}`;
+  document.getElementById('timezone-info').textContent = `🌍 Timezone: ${data.timezone}`;
+  document.getElementById('flag-img').src = data.flag;
+  document.getElementById('info-card').classList.remove('hidden');
+}
+
+function hideCard() {
+  document.getElementById('info-card').classList.add('hidden');
 }
