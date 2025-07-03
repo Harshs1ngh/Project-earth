@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>3D Earth Explorer</title>
+  <title>3D Earth weather</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,7 +12,7 @@
 <canvas id="webgl"></canvas>
 
 <header>
-  <div class="logo">HARSH SINGH</div>
+  <div class="dev">HARSH SINGH</div>
   <nav>
     <a href="#">weather</a>
     <a href="#">Trevel</a>
@@ -21,12 +21,13 @@
   </nav>
   <button class="enroll-btn">project earth</button>
 </header>
+<hr style="width: 90%; margin-left: 5%;" >
 
 <section class="main-section">
   <div class="text-content">
     <h4>THE BLUE PLANET</h4>
     <h1>EARTH</h1>
-    <p>Explore the real-time 3D Earth with clouds, atmosphere and zoomable countries.</p>
+    <p>Explore the real-time 3D Earth countries weather and details</p>
     <div class="btns">
       <button class="learn-more">LEARN MORE</button>
     </div>
@@ -64,7 +65,6 @@
   <img id="flag-img" src="" alt="Flag" class="flag-inline">
   <span id="country-name">Country</span>
 </h2>
-    <button class="close-btn" onclick="hideCard()">✖</button>
   </div>
   <div class="card-content">
     <p id="weather-info">⛅ Weather: </p>
