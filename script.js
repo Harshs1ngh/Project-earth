@@ -52,14 +52,12 @@ function init() {
 
   const loader = new THREE.GLTFLoader();
 
-  // Load Earth
   loader.load("earth.glb", function (gltf) {
     earth = gltf.scene;
     earth.scale.set(2.2, 2.2, 2.4);
     earth.rotation.y = 0;
     scene.add(earth);
 
-    // Glow effect
     const glowMaterial = new THREE.ShaderMaterial({
       uniforms: {
         "c": { type: "f", value: 2.8 },
@@ -136,7 +134,7 @@ function animate() {
 const apiCountryNames = {
   us: "united states",
   uk: "united kingdom",
-  africa: "nigeria", // or pick a country in Africa
+  africa: "nigeria", 
   china: "china",
   southkorea: "south korea",
   india: "india",
@@ -157,7 +155,6 @@ async function zoomToCountry() {
   const country = document.getElementById("countrySelect").value.toLowerCase();
   if (!country || !countryCoords[country] || !earth) return;
 
-  // 🌍 Smooth camera zoom
   const [lng, lat] = countryCoords[country];
   const phi = (90 - lat) * Math.PI / 180;
   const theta = (lng + 215) * Math.PI / 180;
@@ -191,7 +188,6 @@ async function zoomToCountry() {
 
   smoothZoom();
 
-  // 📡 Fetch country + weather data
   try {
     const apiName = apiCountryNames[country] || country;
     const countryInfoRes = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(apiName)}?fullText=true`);
@@ -205,7 +201,6 @@ async function zoomToCountry() {
     const flag = countryInfo.flags?.png || "";
     const latlng = countryInfo.latlng;
 
-    // 🌦️ Real-time weather using lat/lon of capital
     const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latlng[0]}&lon=${latlng[1]}&appid=df83d9ad8fb63535e2dece792e6ef6d3&units=metric`);
     const weatherData = await weatherRes.json();
 

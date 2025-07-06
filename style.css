@@ -177,9 +177,10 @@ select {
   position: absolute;
   top: 50%;
   left: 60%; 
-  width: 320px;
+  width: 35%;
+  height: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(17, 24, 39, 0.95);
+  background: rgba(17, 24, 39, 0.60);
   padding: 20px 25px;
   border-radius: 14px;
   box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
