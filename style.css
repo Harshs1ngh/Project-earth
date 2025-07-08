@@ -49,6 +49,10 @@ nav a {
 nav a:hover {
   color: #316bea;
 }
+nav a.active {
+  color: #316bea;
+  font-weight: 700;
+}
 
 .enroll-btn {
   padding: 8px 16px;
@@ -173,24 +177,24 @@ select {
 #back-btn:hover {
   background-color: #475569;
 }
+
+/* === NEW INFO-CARD DESIGN === */
 .info-card {
   position: absolute;
   top: 50%;
-  left: 60%; 
-  width: 35%;
-  height: 50%;
+  left: 60%;
+  width: 320px;
+  padding: 24px;
   transform: translate(-50%, -50%);
-  background: rgba(17, 24, 39, 0.60);
-  padding: 20px 25px;
-  border-radius: 14px;
-  box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
-  color: #e0f2fe;
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(59, 130, 246, 0.25);
+  color: #e2e8f0;
+  border: 1px solid rgba(59, 130, 246, 0.4);
   z-index: 20;
-  backdrop-filter: blur(12px);
-  border: 1px solid #3b82f6;
   animation: fadeInUp 0.4s ease-out;
 }
-
 
 .info-card.hidden {
   display: none;
@@ -198,56 +202,45 @@ select {
 
 .card-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #334155;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .card-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #3b82f6;
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 1.3rem;
-  color: #60a5fa;
-}
-
-
-.close-btn {
-  background: none;
-  border: none;
-  color: #cbd5e1;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.close-btn:hover {
-  color: white;
-}
-
-.card-content p {
-  margin: 8px 0;
-  font-size: 0.95rem;
 }
 
 #flag-img {
-  margin-top: 12px;
-  width: 60px;
-  border-radius: 6px;
+  width: 36px;
+  height: 24px;
+  border-radius: 4px;
+  object-fit: cover;
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
-.flag-inline {
-  width: 24px;
-  height: 16px;
-  object-fit: contain;
-  border-radius: 2px;
-  margin-right: 10px;
-  vertical-align: middle;
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
+.card-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
 
+/* Optional animation */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
