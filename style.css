@@ -5,7 +5,7 @@
 }
 body {
   font-family: 'Inter', sans-serif;
-  background: radial-gradient(ellipse at center, #1e3a8a 0%, #000814 80%);
+  background: radial-gradient(ellipse at center, #316bea 0%, #000814 80%);
   background-size: 200% 200%;
   animation: glowBackground 10s ease-in-out infinite alternate;
   color: white;
@@ -47,18 +47,18 @@ nav a {
 }
 
 nav a:hover {
-  color: #316bea;
+  color: #2d5ec8;
 }
 nav a.active {
-  color: #316bea;
+  color: #3876fc;
   font-weight: 700;
 }
 
 .enroll-btn {
   padding: 8px 16px;
-  border: none;
-  background: #1f5ad8;
-  color: white;
+  border: 1px solid #316bea;
+  background: transparent;
+  color: rgb(208, 208, 208);
   border-radius: 10px;
   font-weight: 600;
   position: relative;
@@ -75,6 +75,13 @@ nav a.active {
   height: 90vh;
   z-index: 10;
 }
+#typing-effect {
+  font-size: 4rem;
+  color: white;
+  min-height: 1.2em;
+  min-width: 7ch;
+  display: inline-block;
+}
 
 .text-content {
   max-width: 500px;
@@ -84,7 +91,7 @@ nav a.active {
 .text-content h4 {
   font-size: 0.9rem;
   letter-spacing: 2px;
-  color: #4692ef;
+  color: #3187f1;
   margin-bottom: 8px;
 }
 
@@ -109,9 +116,9 @@ nav a.active {
 
 .learn-more {
   padding: 10px 20px;
-  background: #1961d4;
+  background: transparent;
   color: white;
-  border: none;
+  border: 2px solid #316bea;
   border-radius: 30px;
   cursor: pointer;
   font-weight: 600;
@@ -158,7 +165,7 @@ select {
 }
 
 #go-btn {
-  background-color: #2563eb;
+  background-color: #316bea;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -192,7 +199,7 @@ select {
   box-shadow: 0 12px 48px rgba(59, 130, 246, 0.25);
   color: #e2e8f0;
   border: 1px solid rgba(59, 130, 246, 0.4);
-  z-index: 20;
+  z-index: 30;
   animation: fadeInUp 0.4s ease-out;
 }
 

@@ -118,6 +118,43 @@ function init() {
   });
 }
 
+// typing effect logic
+
+  const words = ["Earth", "Search", "Weather", "Travel"];
+  const typingElement = document.getElementById("typing-effect");
+  let wordIndex = 0;
+  let charIndex = 0;
+  let typingSpeed = 170;
+  let erasingSpeed = 170;
+  let delayBetweenWords = 1800; // Delay before erasing
+
+  function type() {
+    if (charIndex < words[wordIndex].length) {
+      typingElement.textContent += words[wordIndex].charAt(charIndex);
+      charIndex++;
+      setTimeout(type, typingSpeed);
+    } else {
+      setTimeout(erase, delayBetweenWords);
+    }
+  }
+
+  function erase() {
+    if (charIndex > 0) {
+      typingElement.textContent = words[wordIndex].substring(0, charIndex - 1);
+      charIndex--;
+      setTimeout(erase, erasingSpeed);
+    } else {
+      wordIndex = (wordIndex + 1) % words.length;
+      setTimeout(type, 200);
+    }
+  }
+
+  // Start the loop on load
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(type, 500);
+  });
+
+
 function animate() {
   requestAnimationFrame(animate);
   if (!isZooming) {

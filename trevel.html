@@ -5,7 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trevel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.4)),
+                  url('https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba') no-repeat center center/cover;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background-color: rgba(0,0,0,0.7);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+
+    .dev {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #F8B26A;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+    }
+
+    .enroll-btn {
+      background-color: transparent;
+      border: 1px solid #F8B26A;
+      padding: 8px 16px;
+      border-radius: 30px;
+      color: #F8B26A;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .main-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      padding-top: 80px;
+      text-align: center;
+    }
+
+    .main-section h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .main-section p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      color: #ddd;
+    }
+
+    .search-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .search-box input,
+    .search-box button {
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      min-width: 140px;
+    }
+
+    .search-box input {
+      background-color: white;
+      color: black;
+    }
+
+    .search-box button {
+      background-color: #F8B26A;
+      font-weight: bold;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
@@ -17,17 +118,20 @@
     <a href="tickets.html">Tickets</a>
     <a href="videos.html">Videos</a>
   </nav>
-  <button class="enroll-btn">project earth</button>
+  <button class="enroll-btn">Project Earth</button>
 </header>
-<hr style="width: 90%; margin-left: 5%;" >
 
 <section class="main-section">
-  <div class="text-content">
-    <h1>Coming Soon</h1>
-    <p>This section is under development.</p>
+  <h1>Explore Your Stay</h1>
+  <p>Find the best accommodations around the world</p>
+  <div class="search-box">
+    <input type="text" placeholder="Location">
+    <input type="date">
+    <input type="date">
+    <input type="number" placeholder="Guests" min="1">
+    <button onclick="alert('Searching...')">Search</button>
   </div>
 </section>
 
-<script src="script.js"></script>
 </body>
 </html>
