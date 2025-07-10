@@ -38,11 +38,11 @@ function init() {
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 2.2;
+  renderer.toneMappingExposure = 1.2;
 
   scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 3, 6);
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -52,8 +52,8 @@ function init() {
 
   scene.add(new THREE.AmbientLight(0xffffff, 2.5));
 
-  const directional = new THREE.DirectionalLight(0xffffff, 3);
-  directional.position.set(5, 2, 5);
+  const directional = new THREE.DirectionalLight(0xffffff, 4);
+  directional.position.set(6, 2, 2);
   scene.add(directional);
 
   const loader = new THREE.GLTFLoader();
@@ -91,7 +91,6 @@ function init() {
       blending: THREE.AdditiveBlending,
       transparent: true
     });
-
     const glowMesh = new THREE.Mesh(new THREE.SphereGeometry(3.0, 50, 50), glowMaterial);
     scene.add(glowMesh);
   });
