@@ -102,7 +102,7 @@ function init() {
     galaxy.traverse((child) => {
       if (child.isMesh && child.material) {
         child.material = child.material.clone();
-        if (child.material.color) child.material.color.multiplyScalar(0.2);
+        if (child.material.color) child.material.color.multiplyScalar(0.1);
         if (child.material.emissive) child.material.emissive.multiplyScalar(0.1);
       }
     });
@@ -157,8 +157,8 @@ function init() {
 function animate() {
   requestAnimationFrame(animate);
   if (!isZooming) {
-    if (earth) earth.rotation.y += 0.001;
-    if (galaxy) galaxy.rotation.y += 0.001;
+    if (earth) earth.rotation.y += 0.0008;
+    if (galaxy) galaxy.rotation.y += 0.0008;
   }
   controls.update();
   renderer.render(scene, camera);
