@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trevel</title>
+  <title>Trevel - Project Earth</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -15,9 +15,25 @@
 
     body, html {
       height: 100%;
-      background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.4)),
-                  url('https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba') no-repeat center center/cover;
       color: white;
+    }
+
+    .bg-slide {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transition: opacity 1s ease-in-out;
+      z-index: -1;
+      opacity: 0;
+    }
+
+    .bg-slide.visible {
+      opacity: 1;
     }
 
     header {
@@ -25,32 +41,39 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px 60px;
-      background-color: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
       position: fixed;
       width: 100%;
       top: 0;
       z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .dev {
       font-size: 1.5rem;
       font-weight: bold;
-      color: #F8B26A;
+      color: white;
     }
 
     nav a {
       margin: 0 15px;
       text-decoration: none;
-      color: white;
+      color: #d9d8d8;
       font-weight: 500;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover, nav a.active {
+      color: #4C8BFF;
     }
 
     .enroll-btn {
       background-color: transparent;
-      border: 1px solid #F8B26A;
+      border: 2px solid #4C8BFF;
       padding: 8px 16px;
-      border-radius: 30px;
-      color: #F8B26A;
+      border-radius: 20px;
+      color: #fff;
       cursor: pointer;
       font-weight: bold;
     }
@@ -66,49 +89,86 @@
     }
 
     .main-section h1 {
-      font-size: 3rem;
+      font-size: 4rem;
+      color: white;
       margin-bottom: 10px;
+      text-shadow: 0 0 10px #565657;
     }
 
     .main-section p {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin-bottom: 30px;
-      color: #ddd;
+      color: #070707;
     }
 
     .search-box {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      border-radius: 20px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
+      box-shadow: 0 0 20px rgba(76, 139, 255, 0.1);
+      max-width: 700px;
     }
 
     .search-box input,
     .search-box button {
-      padding: 10px;
+      padding: 12px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 1rem;
       min-width: 140px;
+      outline: none;
     }
 
     .search-box input {
-      background-color: white;
-      color: black;
+      background-color: #0f0f0f;
+      color: #fff;
+      border: 1px solid #333;
+    }
+
+    .search-box input::placeholder {
+      color: #999;
     }
 
     .search-box button {
-      background-color: #F8B26A;
+      background-color: #357afb;
       font-weight: bold;
-      color: black;
+      color: white;
       cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .search-box button:hover {
+      background-color: #185bcf;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 1.5rem;
+      color: #000000;
+      text-shadow: 0 0 5px rgba(118, 113, 113, 0.4);
+    }
+
+    @media (max-width: 600px) {
+      .main-section h1 {
+        font-size: 2.5rem;
+      }
+      .search-box {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
+
+<!-- Two layers for fading background -->
+<div class="bg-slide" id="bg1"></div>
+<div class="bg-slide" id="bg2"></div>
 
 <header>
   <div class="dev">HARSH SINGH</div>
@@ -118,20 +178,80 @@
     <a href="tickets.html">Tickets</a>
     <a href="videos.html">Videos</a>
   </nav>
-  <button class="enroll-btn">Project Earth</button>
+  <button class="enroll-btn">project earth</button>
 </header>
 
 <section class="main-section">
   <h1>Explore Your Stay</h1>
   <p>Find the best accommodations around the world</p>
   <div class="search-box">
-    <input type="text" placeholder="Location">
-    <input type="date">
-    <input type="date">
-    <input type="number" placeholder="Guests" min="1">
-    <button onclick="alert('Searching...')">Search</button>
+    <input type="text" id="location" placeholder="Location">
+    <input type="date" id="checkin">
+    <input type="date" id="checkout">
+    <input type="number" id="guests" placeholder="Guests" min="1">
+    <button onclick="searchStay()">Search</button>
   </div>
+  <div id="result"></div>
 </section>
+
+<script>
+  function searchStay() {
+    const location = document.getElementById('location').value.trim();
+    const checkin = document.getElementById('checkin').value;
+    const checkout = document.getElementById('checkout').value;
+    const guests = document.getElementById('guests').value;
+
+    if (!location || !checkin || !checkout || !guests) {
+      document.getElementById('result').innerText = "⚠️ Please fill in all fields.";
+      return;
+    }
+
+    document.getElementById('result').innerHTML = `
+      🛸 Searching stays in <strong>${location}</strong> from <strong>${checkin}</strong> to <strong>${checkout}</strong> for <strong>${guests}</strong> guest(s)...`;
+    
+    setTimeout(() => {
+      document.getElementById('result').innerHTML += "<br>✅ Results will be shown soon!";
+    }, 1000);
+  }
+
+  const backgrounds = [
+    'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://i.pinimg.com/1200x/7d/38/ba/7d38ba1b736b26d961f53f4a101d0b16.jpg',
+    'https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://cdn.content.tuigroup.com/adamtui/2016_11/9_5/2c668885-9e34-4f91-bf0c-a6b9005b8b8e/MLD_GEN_57101WebOriginalCompressed.jpg?i10c=img.resize(width:1080);img.crop(width:1080,height:608)',
+    'https://i.pinimg.com/1200x/3e/54/4b/3e544bba964447e29b626fe7b9e6997b.jpg'
+  ];
+
+  let current = 0;
+  let active = 0;
+  const bg1 = document.getElementById('bg1');
+  const bg2 = document.getElementById('bg2');
+
+  function preloadImages(urls) {
+    urls.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
+  }
+
+  function crossfadeBackground() {
+    const next = (current + 1) % backgrounds.length;
+    const top = active === 0 ? bg1 : bg2;
+    const bottom = active === 0 ? bg2 : bg1;
+
+    top.style.backgroundImage = `url('${backgrounds[next]}')`;
+    top.classList.add('visible');
+    bottom.classList.remove('visible');
+
+    active = 1 - active;
+    current = next;
+  }
+
+  preloadImages(backgrounds);
+  bg1.style.backgroundImage = `url('${backgrounds[0]}')`;
+  bg1.classList.add('visible');
+  setInterval(crossfadeBackground, 3000);
+</script>
 
 </body>
 </html>

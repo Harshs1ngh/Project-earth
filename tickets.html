@@ -5,28 +5,182 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Trevel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      position: relative;
+    }
+
+    .slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    .slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .slideshow img.active {
+      opacity: 1;
+    }
+
+    header {
+      width: 100%;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    header .dev {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a.active,
+    nav a:hover {
+      color: #00ffff;
+    }
+
+    .enroll-btn {
+      background-color: #00ffff;
+      color: black;
+      padding: 8px 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .enroll-btn:hover {
+      background-color: #00dddd;
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background-color: #ffffff88;
+    }
+
+    .main-section {
+      height: calc(100vh - 90px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .main-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+
+    .text-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+
+    .text-content p {
+      font-size: 1.4rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    @media (max-width: 768px) {
+      .text-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .text-content p {
+        font-size: 1.1rem;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header>
+<div class="slideshow">
+  <img src="https://w0.peakpx.com/wallpaper/236/16/HD-wallpaper-a-view-from-hotel-mountain-the-caribs-paint-chocolate-hotel-summer-evening-tropics-sky.jpg" class="active">
+  <img src="https://i.ytimg.com/vi/iEG7rUQNEu0/hq720.jpg" >
+  <img src="https://i.ytimg.com/vi/nrqfyJTSODw/hq720.jpg" >
+  <img src="https://cdn.content.tuigroup.com/adamtui/2016_11/9_5/2c668885-9e34-4f91-bf0c-a6b9005b8b8e/MLD_GEN_57101WebOriginalCompressed.jpg?i10c=img.resize(width:1080);img.crop(width:1080,height:608)" >
+  <img src="https://w0.peakpx.com/wallpaper/212/803/HD-wallpaper-best-room-in-the-intercontinental-in-hong-kong-hotel-city-view-room-pool.jpg" >
+</div>
+
+<header> 
   <div class="dev">HARSH SINGH</div>
   <nav>
     <a href="index.html">Weather</a>
-    <a href="trevel.html">Trevel</a>
-    <a href="tickets.html"class="active">Tickets</a>
+    <a href="trevel.html" class="active">Trevel</a>
+    <a href="tickets.html">Tickets</a>
     <a href="videos.html">Videos</a>
   </nav>
   <button class="enroll-btn">project earth</button>
 </header>
+
 <hr style="width: 90%; margin-left: 5%;" >
 
 <section class="main-section">
   <div class="text-content">
-    <h1>Coming Soon</h1>
-    <p>This section is under development.</p>
+    <h1>Welcome to Trevel</h1>
+    <p>Discover breathtaking locations and plan your next adventure with style and comfort.</p>
   </div>
 </section>
+
+<script>
+  const slides = document.querySelectorAll(".slideshow img");
+  let index = 0;
+
+  setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  }, 3000);
+</script>
 
 </body>
 </html>
