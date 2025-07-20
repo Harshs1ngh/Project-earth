@@ -13,7 +13,7 @@ const countryCoords = {
   brazil: [-151.9253, -14.235],
   germany: [140.4515, 51.1657],
   france: [160.2137, 46.2276], 
-  japan: [30.2529, 36.2048],
+  japan: [30.2529, 36.2048], 
   southkorea: [40.7669, 35.9078],
   italy: [140.5674, 41.8719],
   mexico: [-102.5528, 23.6345],
@@ -125,7 +125,7 @@ function init() {
   let charIndex = 0;
   let typingSpeed = 170;
   let erasingSpeed = 170;
-  let delayBetweenWords = 1800; // Delay before erasing
+  let delayBetweenWords = 1800; 
 
   function type() {
     if (charIndex < words[wordIndex].length) {
@@ -148,7 +148,7 @@ function init() {
     }
   }
 
-  // Start the loop on load
+  // Starting loop on load
   document.addEventListener("DOMContentLoaded", function () {
     setTimeout(type, 500);
   });

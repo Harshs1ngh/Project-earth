@@ -84,7 +84,7 @@
       align-items: center;
       flex-direction: column;
       height: 100vh;
-      padding-top: 80px;
+      padding-top: 20%;
       text-align: center;
     }
 
@@ -195,24 +195,77 @@
 </section>
 
 <script>
-  function searchStay() {
-    const location = document.getElementById('location').value.trim();
-    const checkin = document.getElementById('checkin').value;
-    const checkout = document.getElementById('checkout').value;
-    const guests = document.getElementById('guests').value;
+function searchStay() {
+  const location = document.getElementById('location').value.trim();
+  const checkin = document.getElementById('checkin').value;
+  const checkout = document.getElementById('checkout').value;
+  const guests = document.getElementById('guests').value;
 
-    if (!location || !checkin || !checkout || !guests) {
-      document.getElementById('result').innerText = "⚠️ Please fill in all fields.";
-      return;
-    }
-
-    document.getElementById('result').innerHTML = `
-      🛸 Searching stays in <strong>${location}</strong> from <strong>${checkin}</strong> to <strong>${checkout}</strong> for <strong>${guests}</strong> guest(s)...`;
-    
-    setTimeout(() => {
-      document.getElementById('result').innerHTML += "<br>✅ Results will be shown soon!";
-    }, 1000);
+  if (!location || !checkin || !checkout || !guests) {
+    document.getElementById('result').innerText = "⚠️ Please fill in all fields.";
+    return;
   }
+
+  const hotelImages = [
+    "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS591QMoY23z_y4xQ9Zdd2dClyWdoZ0GrKxGCcw99GtGr9aSOJy9vQGKmBWPiZPxfI_5nc&usqp=CAU",
+    "https://images.trvl-media.com/lodging/2000000/1850000/1848900/1848863/e0c4c8d1.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill",
+    "https://synques-cdn.s3.ap-south-1.amazonaws.com/golfview.in/images/golfview_slide6.jpg",
+    "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201802271416216145-36e57234d77611ed97960a58a9feac02.jpg"
+  ];
+
+  let resultHTML = `
+    <div style="max-width: 1100px; margin: 40px auto;">
+      <div style="margin-bottom: 20px; font-size: 1.2rem; color: #f0f0f0;">
+        🔍 Showing stays in <strong>${location}</strong> from <strong>${checkin}</strong> to <strong>${checkout}</strong> for <strong>${guests}</strong> guest(s)
+      </div>
+      <div style="
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      ">
+  `;
+
+  for (let i = 0; i < 6; i++) {
+    resultHTML += `
+      <div style="
+        background-color: #1e1e2f;
+        backdrop-filter: blur(8px);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
+        transition: transform 0.3s ease;
+      ">
+        <img src="${hotelImages[i]}" alt="Hotel ${i + 1}" style="width: 100%; height: 120px; object-fit: cover;">
+        <div style="padding: 12px; color: #f5f5f5; font-size: 0.85rem;">
+          <h3 style="margin-bottom: 5px; font-size: 1rem; font-weight: 600;">Hotel ${i + 1} - ${location}</h3>
+          <p style="margin: 4px 0; color: #cccccc;">📍 Near downtown • 🛏️ 2 Beds</p>
+          <p style="margin: 4px 0; color: #cccccc;">🌐 Free WiFi • 👥 ${guests} Guest(s)</p>
+          <p style="margin: 4px 0; color: #bbbbbb;">🗓️ ${checkin} → ${checkout}</p>
+          <p style="margin-top: 10px; font-weight: bold; color: #4C8BFF;">₹${4000 + i * 500}/night</p>
+          <button onclick="alert('✅ Booking Hotel ${i + 1} for ${guests} guest(s) at ${location}!')" style="
+            margin-top: 12px;
+            width: 100%;
+            padding: 10px;
+            background-color: #4C8BFF;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+          " onmouseover="this.style.backgroundColor='#326fd1'" onmouseout="this.style.backgroundColor='#4C8BFF'">Book Now</button>
+        </div>
+      </div>
+    `;
+  }
+
+  resultHTML += "</div></div>";
+  document.getElementById('result').innerHTML = resultHTML;
+}
+
 
   const backgrounds = [
     'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -252,6 +305,7 @@
   bg1.classList.add('visible');
   setInterval(crossfadeBackground, 3000);
 </script>
+
 
 </body>
 </html>
