@@ -36,7 +36,7 @@ renderer.setSize(window.innerWidth , window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio); // renderign looks sharp
 renderer.outputEncoding = THREE.sRGBEncoding; // for better color accuracy.
 renderer.toneMapping = THREE.ACRSFilmicToneMapping;
-renderer.toneMappingExposure = 1.2; //  brigtness control 
+renderer.toneMappingExposure = 1; //  brigtness control 
 scene = new THREE.Scene();
 
 camera = new THREE.PerspectiveCamera(
@@ -53,7 +53,7 @@ controls.target.set(0,0,0);     // earth center orbit
 controls.update()
 
 scene.add(new THREE.AmbientLight(0xffffff , 2.5));
-const directional = new THREE.DirectionalLight(0xffffff , 3); //sunlight effect
+const directional = new THREE.DirectionalLight(0xffffff , 5); //sunlight effect
 directional.position.set(6,2,2);
 scene.add(directional);
 
