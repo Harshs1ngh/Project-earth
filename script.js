@@ -12,13 +12,13 @@ const countryCoords = {
   southkorea : [40.7669 , 35.9078],
   australia : [30.7751 , -25.2744],
   nigeria : [130.0936 , 7.1881],
-  southafrica : [22.9375,-30.4161],
+  southafrica : [22.9375 , -30.4161],
   brazil : [-151.9253 , -14.235],
   germany : [140.4515 , 51.1657],
   france : [160.2137 , 46.2276],
   italy : [140.5674 , 41.8719],
   mexico : [-102.5528 , 23.6345],
-  argentina : [-63.6167 , -38.4161],
+  argentina : [-63.6167 , -38.4161],  
 };
 const apiCountryNames = {
   us: "united states",
@@ -171,6 +171,8 @@ async function zoomToCountry(){
   const country = document.getElementById("countrySelect").value.toLowerCase();
   if(!country || !countryCoords[country] || !earth) return;
 
+  showLoading();
+
   const [ lng,lat]=  countryCoords[country];
   const phi = (90 - lat) * Math.PI / 180;  //Converts lat/lng to spherical coordinates
   const theta = (lng + 215) * Math.PI / 180;
@@ -205,8 +207,9 @@ async function zoomToCountry(){
       controls.update();    //once finished, sets OrbitControls target to Earth's center
     }
   }
+  
   smoothZoom();
-
+  
   try {
     const apiName = apiCountryNames[country] || country;
     const res = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(apiName)}?fullText=true`);
@@ -251,6 +254,8 @@ async function zoomToCountry(){
   }catch(error){
     console.error("Failed to fetch real data:", error);
     alert("Error fetching country or weather data.");
+  }finally {
+    hideLoading();  // <-- always hide loader
   }
 }
 function resetCamera(){
@@ -291,4 +296,12 @@ function showInfoCard(data){
 
 function hideCard(){
   document.getElementById('info-card').classList.add('hidden');
+}
+
+function showLoading() {
+  document.getElementById("loading").classList.remove("hidden");
+}
+
+function hideLoading() {
+  document.getElementById("loading").classList.add("hidden");
 }
