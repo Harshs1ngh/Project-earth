@@ -20,11 +20,16 @@ const countryCoords = {
   mexico : [-102.5528 , 23.6345],
   argentina : [-63.6167 , -38.4161],  
 };
-const apiCountryNames = {
+const apiCountryNames = { 
   us: "united states",
   uk: "united kingdom",
   southkorea: "south korea"
 };
+
+document.body.addEventListener("touchmove", e => {
+  if (e.target.id === "webgl") e.preventDefault();
+}, { passive: false });
+
 
 init();
 animate();

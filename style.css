@@ -17,7 +17,7 @@ body {
     background-position: 0% 50%;
     filter: brightness(1);
   }
-  100% {
+  100% { 
     background-position: 100% 50%;
     filter: brightness(1.15);
   }
@@ -47,11 +47,11 @@ nav a {
 }
 
 nav a:hover {
-  color: #2d5ec8; 
+  color: #3187f1;
 }
 nav a.active {
-  color: #3876fc;
-  font-weight: 700;
+  color: #3187f1;
+  font-weight: 800;
 }
 
 .enroll-btn {
@@ -77,7 +77,7 @@ nav a.active {
 }
 #typing-effect {
   font-size: 4rem;
-  color: white;
+  color: #3187f1;
   min-height: 1.2em;
   min-width: 7ch;
   display: inline-block;
@@ -91,7 +91,7 @@ nav a.active {
 .text-content h4 {
   font-size: 0.9rem;
   letter-spacing: 2px;
-  color: #3187f1;
+  color: #e8e8e8;
   margin-bottom: 8px;
 }
 
@@ -291,4 +291,88 @@ select {
 
 .hidden {
   display: none;
+}
+
+
+
+@media (max-width: 768px) {
+
+  header {
+    padding: 12px 16px;
+    left: 0;
+  }
+
+  .dev {
+    font-size: 0.9rem;
+  }
+
+  .enroll-btn {
+    display: none;
+  }
+
+  .main-section {
+    flex-direction: column;
+    padding: 20px;
+    height: auto;
+    text-align: center;
+  }
+
+  .text-content {
+    max-width: 100%;
+  }
+
+  #typing-effect {
+    font-size: 2.2rem;
+  }
+
+  .text-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .text-content p {
+    font-size: 0.85rem;
+  }
+
+  /* SEARCH PANEL → BOTTOM SHEET */
+  #search-container {
+    position: fixed;
+    bottom: -120px;
+    top: auto;
+    right: 50%;
+    transform: translateX(50%);
+    flex-direction: column;
+    align-items: stretch;
+    width: calc(100% - 32px);
+    max-width: 420px;
+  }
+
+  #search-container select {
+    width: 100%;
+  }
+
+  #search-container > div {
+    display: flex;
+    width: 100%;
+  }
+
+  #go-btn,
+  #back-btn {
+    flex: 1;
+  }
+
+  /* INFO CARD → FULL WIDTH */
+  .info-card {
+    position: fixed;
+    left: 50%;
+    top: auto;
+    bottom: -420px;
+    width: calc(100% - 32px);
+    max-width: 420px;
+    transform: translateX(-50%);
+  }
+
+  /* LOADER SCALE */
+  #loading {
+    width: 80%;
+  }
 }
